@@ -16,7 +16,6 @@ const AroundYou = () => {
             .then((res) => setCountry(res?.data?.location.country))
             .catch((err) => console.log(err))
             .finally(setLoading(false))
-            console.log(country)
     }, [country])
 
     if ( isFetching || loading ) return <Loader title="Loading songs around you" />
@@ -25,8 +24,22 @@ const AroundYou = () => {
 
     return (
         <div className='flex flex-col'>
-            <h2 className='font-bold text-3xl text-white text-left mt-4 mb-10'>Around You</h2>
-
+            <h2 className='font-bold text-3xl text-white text-left mt-4 mb-10'>
+                Around You
+                <span className="font-black ml-1">{country}</span>
+            </h2>
+            <div className='flex flex-wrap sm:justify-start justify-center gap-8'>
+                {data?.map((song, i) => (
+                    <SongCard
+                        key={song.key}
+                        song={song}
+                        isPlaying={isPlaying}
+                        activeSong={activeSong}
+                        data={data}
+                        i={i}
+                    />
+                ))}
+            </div>
         </div>
     )
 }
